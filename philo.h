@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/04/25 17:18:01 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:41:19 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,35 @@
 typedef struct s_philo
 {
 	int					id;
-	int					left;
-	int					right;
-	pthread_mutex_t*	mutex;
+	pthread_mutex_t		left;
+	pthread_mutex_t		right;
+	pthread_t			thread;
 }	t_philo;
+
+typedef struct s_data
+{
+	t_philo	*philo;
+	int		n_philo;
+	int		t_die;
+	int		t_eat;
+	int		t_sleep;
+	int		n_eat;
+}	t_data;
 
 // philo.c
 
-int	you_fucked_up(char *msg);
+int		you_fucked_up(char *msg);
 
+// libft_utils.c
+
+int		ft_isdigit(int str);
+
+// input_check.c
+
+int		is_number(char *argv);
+
+int		is_zero(char *argv);
+
+int		check_input(char **argv);
 
 #endif
