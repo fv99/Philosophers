@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/04/27 16:41:19 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:06:55 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ int		you_fucked_up(char *msg);
 // libft_utils.c
 
 int		ft_isdigit(int str);
+
+int		ft_atoi(char *str);
+
+// philo_utils.c
+
+int	init_philos(t_philo *philo, t_data *data, char **argv)
+
+
 
 // input_check.c
 
