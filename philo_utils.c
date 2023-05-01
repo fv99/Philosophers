@@ -6,22 +6,27 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 15:03:51 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:43:06 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_philos(t_philo *philo, int n_philo)
+int	init_philos(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < n_philo)
+	while (i < data->n_philo)
 	{
-		philo[i].id = i + 1;
-		pthread_mutex_init(&philo[i].left, NULL);
-		pthread_mutex_init(&philo[i].right, NULL);
+		data->philo[i].id = i + 1;
+		data->philo[i].last_ate = timestamp();
+		data->philo[i].n_ate = 0;
+		data->philo[i].data = data;
+		pthread_mutex_init(&data->philo[i].left, NULL);
+		pthread_mutex_init(&data->philo[i].right, NULL);
+		if (pthread_create(&data->philo[i].thread, NULL, philo_routine, &data->philo[i]) != 0)
+			you_fucked_up("Couldnt create thread");
 		i++;
 	}
 	return (0);
@@ -38,8 +43,24 @@ int	init_data(t_data *data, char **argv)
 	data->philo = malloc(sizeof(t_philo) * data->n_philo);
 	if (!data->philo)
 		you_fucked_up("Allocation failed");
-	init_philos(data->philo, data->n_philo);
+	init_philos(data);
 	return (0);
+}
+
+unsigned long long timestamp(void)
+{
+	struct timeval	time;
+	gettimeofday(&time, NULL);
+	return(time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	ft_usleep(int ms)
+{
+	long int	time;
+
+	time = timestamp();
+	while (timestamp() - time < ms)
+		usleep(ms / 10);
 }
 
 void	free_data(t_data *data)
@@ -62,7 +83,7 @@ void	free_data(t_data *data)
 	}
 }
 
-// test function
+/* // test function
 int test_init(t_data *data)
 {
     int i;
@@ -92,3 +113,4 @@ int test_init(t_data *data)
     }
     return (0);
 }
+ */

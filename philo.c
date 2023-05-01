@@ -6,24 +6,38 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 14:59:32 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:59:02 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// error handling
-int	you_fucked_up(char *msg)
+void	*philo_routine(void *arg)
 {
-	printf("\tERROR: %s\n", msg);
-	exit(1);
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	while(1)
+	{
+		philo_fork(philo);
+		philo_eat(philo);
+		print_status(2, philo->id);
+		ft_usleep(philo->data->t_sleep);
+		print_status(3, philo->id);
+	}
 }
 
-unsigned long long timestamp(void)
+void	philo_fork(t_philo *philo)
 {
-	struct timeval	time;
-	gettimeofday(&time, NULL);
-	return(time.tv_sec * 1000 + time.tv_usec / 1000);
+	pthread_mutex_lock(&philo->left);
+	print_status(0, philo->id);
+	pthread_mutex_lock(&philo->right);
+	print_status(0, philo->id);
+}
+
+void	philo_eat(t_philo *philo)
+{
+	print_status(1, philo->id);
 }
 
 /* 
@@ -39,13 +53,13 @@ void	print_status(int mode, int num)
 
 	time = timestamp();
 	if (mode == 0)
-		printf("%llu %i has taken a fork", time, num);
+		printf("%llu %i has taken a fork\n", time, num);
 	else if (mode == 1)
-		printf("%llu %i is eating", time, num);
+		printf("%llu %i is eating\n", time, num);
 	else if (mode == 2)
-		printf("%llu %i is sleeping", time, num);
+		printf("%llu %i is sleeping\n", time, num);
 	else if (mode == 3)
-		printf("%llu %i is thinking", time, num);
+		printf("%llu %i is thinking\n", time, num);
 	else if (mode == 4)
-		printf("%llu %i died", time, num);
+		printf("%llu %i has died. Press F to pay respects.\n", time, num);
 }

@@ -6,11 +6,18 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:31:20 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/04/27 16:46:31 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:25:50 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+// error handling
+int	you_fucked_up(char *msg)
+{
+	printf("\tERROR: %s\n", msg);
+	exit(1);
+}
 
 int	ft_isdigit(int str)
 {

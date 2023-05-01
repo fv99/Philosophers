@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 15:02:43 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:43:12 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@
 typedef struct s_philo
 {
 	int					id;
+	long				last_ate;
+	int					n_ate;
 	pthread_mutex_t		left;
 	pthread_mutex_t		right;
 	pthread_t			thread;
+	t_data				*data;
 }	t_philo;
 
 typedef struct s_data
@@ -43,9 +46,13 @@ typedef struct s_data
 
 // philo.c
 
-int		you_fucked_up(char *msg);
+void	*philo_routine(void *arg);
+
+void	print_status(int mode, int num);
 
 // libft_utils.c
+
+int		you_fucked_up(char *msg);
 
 int		ft_isdigit(int str);
 
@@ -53,13 +60,17 @@ int		ft_atoi(char *str);
 
 // philo_utils.c
 
-int		init_philos(t_philo *philo, int n_philo);
+int	init_philos(t_data *data);
 
 int		init_data(t_data *data, char **argv);
 
 void	free_data(t_data *data);
 
-int 	test_init(t_data *data);
+unsigned long long timestamp(void);
+
+void	ft_usleep(int ms);
+
+// int 	test_init(t_data *data);
 
 // input_check.c
 
