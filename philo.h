@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/04/27 17:06:55 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:02:43 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,13 @@ int		ft_atoi(char *str);
 
 // philo_utils.c
 
-int	init_philos(t_philo *philo, t_data *data, char **argv)
+int		init_philos(t_philo *philo, int n_philo);
 
+int		init_data(t_data *data, char **argv);
 
+void	free_data(t_data *data);
+
+int 	test_init(t_data *data);
 
 // input_check.c
 

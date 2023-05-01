@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/04/26 18:10:36 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:59:32 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ unsigned long long timestamp(void)
 {
 	struct timeval	time;
 	gettimeofday(&time, NULL);
-	return(time.tv_sec * 1000 + tv.tv_usec / 1000);
+	return(time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 /* 
@@ -35,7 +35,7 @@ unsigned long long timestamp(void)
  */
 void	print_status(int mode, int num)
 {
-	const unsigned long long	time;
+	unsigned long long	time;
 
 	time = timestamp();
 	if (mode == 0)

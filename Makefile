@@ -6,14 +6,14 @@
 #    By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 15:47:13 by fvonsovs          #+#    #+#              #
-#    Updated: 2023/04/25 13:56:46 by fvonsovs         ###   ########.fr        #
+#    Updated: 2023/05/01 14:57:32 by fvonsovs         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	gcc
 CFLAGS		=	-pthread -lpthread -lrt -Wall -Wextra -Werror -g -fsanitize=address
 NAME		=	philo
-SRCS		=	main.c
+SRCS		=	main.c philo_utils.c libft_utils.c input_check.c philo.c
 OBJS		=	${SRCS:.c=.o}
 BONUS_NAME	=	philo_bonus
 BONUS		=	main_bonus.c
