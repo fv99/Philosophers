@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 16:37:25 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:49:50 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@ void	*philo_routine(void *arg)
 		ft_usleep(philo->data->t_eat);
 	while(philo->dead == 0)
 	{
-		if (timestamp() - philo->last_ate > philo->data->t_die)
-		{
-			print_status(4, philo->id);
-			philo->dead = 1;
-			pthread_mutex_unlock(philo->right);
-			pthread_mutex_unlock(&philo->left);
-			return (NULL);
-		}
 		philo_fork(philo);
 		philo_eat(philo);
 		print_status(2, philo->id);
@@ -60,6 +52,17 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(philo->right);
 	pthread_mutex_unlock(&philo->left);
 
+}
+
+void	is_dead(t_philo *philo)
+{
+	if (timestamp() - philo->last_ate > philo->data->t_die)
+	{
+		print_status(4, philo->id);
+		philo->dead = 1;
+		pthread_mutex_unlock(philo->right);
+		pthread_mutex_unlock(&philo->left);
+	}
 }
 
 /* 
