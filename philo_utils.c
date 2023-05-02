@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 17:43:06 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:58:37 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ int	init_philos(t_data *data)
 			you_fucked_up("Couldnt create thread");
 		i++;
 	}
+	i = 0;
+    while (i < data->n_philo)
+    {
+        pthread_join(data->philo[i].thread, NULL);
+        i++;
+    }
 	return (0);
 }
 
@@ -47,11 +53,12 @@ int	init_data(t_data *data, char **argv)
 	return (0);
 }
 
-unsigned long long timestamp(void)
+long long	timestamp(void)
 {
-	struct timeval	time;
-	gettimeofday(&time, NULL);
-	return(time.tv_sec * 1000 + time.tv_usec / 1000);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 void	ft_usleep(int ms)

@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 17:43:12 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:51:01 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo
 	pthread_mutex_t		left;
 	pthread_mutex_t		right;
 	pthread_t			thread;
-	t_data				*data;
+	struct s_data		*data;
 }	t_philo;
 
 typedef struct s_data
@@ -47,6 +47,10 @@ typedef struct s_data
 // philo.c
 
 void	*philo_routine(void *arg);
+
+void	philo_fork(t_philo *philo);
+
+void	philo_eat(t_philo *philo);
 
 void	print_status(int mode, int num);
 
@@ -66,7 +70,7 @@ int		init_data(t_data *data, char **argv);
 
 void	free_data(t_data *data);
 
-unsigned long long timestamp(void);
+long long timestamp(void);
 
 void	ft_usleep(int ms);
 

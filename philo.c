@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 17:59:02 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:56:10 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	// if (philo->id % 2 == 0)
+	// 	ft_usleep(philo->data->t_eat);
 	while(1)
 	{
 		philo_fork(philo);
@@ -38,6 +40,11 @@ void	philo_fork(t_philo *philo)
 void	philo_eat(t_philo *philo)
 {
 	print_status(1, philo->id);
+	philo->n_ate++;
+	philo->last_ate = timestamp();
+	pthread_mutex_unlock(&philo->right);
+	pthread_mutex_unlock(&philo->left);
+
 }
 
 /* 
