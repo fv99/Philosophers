@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 16:15:31 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:33:14 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	init_philos(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].dead = 0;
 		pthread_mutex_init(&data->philo[i].left, NULL);
-		pthread_mutex_init(&data->philo[i].right, NULL);
+		if (i == data->n_philo - 1)
+			data->philo[i].right = &data->philo[0].left;
+		else
+			data->philo[i].right = &data->philo[i + 1].left;
 		if (pthread_create(&data->philo[i].thread, NULL, philo_routine, &data->philo[i]) != 0)
 			you_fucked_up("Couldnt create thread");
 		i++;
@@ -83,7 +86,7 @@ void	free_data(t_data *data)
 			while (i < data->n_philo)
 			{
 				pthread_mutex_destroy(&data->philo[i].left);
-				pthread_mutex_destroy(&data->philo[i].right);
+				pthread_mutex_destroy(data->philo[i].right);
 				i++;
 			}
 			free(data->philo);
