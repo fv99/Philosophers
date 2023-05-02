@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 14:56:10 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:16:40 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,23 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	// if (philo->id % 2 == 0)
 	// 	ft_usleep(philo->data->t_eat);
-	while(1)
+	while(philo->dead == 0)
 	{
+		if (timestamp() - philo->last_ate > philo->data->t_die)
+		{
+			print_status(4, philo->id);
+			philo->dead = 1;
+			pthread_mutex_unlock(&philo->right);
+			pthread_mutex_unlock(&philo->left);
+			return (NULL);
+		}
 		philo_fork(philo);
 		philo_eat(philo);
 		print_status(2, philo->id);
 		ft_usleep(philo->data->t_sleep);
 		print_status(3, philo->id);
 	}
+	return (NULL);
 }
 
 void	philo_fork(t_philo *philo)

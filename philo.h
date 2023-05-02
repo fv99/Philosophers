@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 14:51:01 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:12:37 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_philo
 	int					id;
 	long				last_ate;
 	int					n_ate;
+	int					dead;
 	pthread_mutex_t		left;
 	pthread_mutex_t		right;
 	pthread_t			thread;

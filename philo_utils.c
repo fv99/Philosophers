@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 14:58:37 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:15:31 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	init_philos(t_data *data)
 		data->philo[i].last_ate = timestamp();
 		data->philo[i].n_ate = 0;
 		data->philo[i].data = data;
+		data->philo[i].dead = 0;
 		pthread_mutex_init(&data->philo[i].left, NULL);
 		pthread_mutex_init(&data->philo[i].right, NULL);
 		if (pthread_create(&data->philo[i].thread, NULL, philo_routine, &data->philo[i]) != 0)
@@ -31,10 +32,10 @@ int	init_philos(t_data *data)
 	}
 	i = 0;
     while (i < data->n_philo)
-    {
+	{
         pthread_join(data->philo[i].thread, NULL);
-        i++;
-    }
+		i++;
+	}
 	return (0);
 }
 
