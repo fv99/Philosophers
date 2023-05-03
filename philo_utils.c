@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 16:33:14 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:07:03 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	init_data(t_data *data, char **argv)
 	data->t_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		data->n_eat = ft_atoi(argv[5]);
+	else if (!argv[5])
+		data->n_eat = INT_MAX;
 	data->philo = malloc(sizeof(t_philo) * data->n_philo);
 	if (!data->philo)
 		you_fucked_up("Allocation failed");

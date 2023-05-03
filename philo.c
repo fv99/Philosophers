@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/03 16:02:44 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:21:57 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	*philo_routine(void *arg)
 		philo_fork(philo);
 		philo_eat(philo);
 		pthread_detach(thread);
+		if (philo->n_ate >= philo->data->n_eat)
+			return(NULL);
 		print_status(2, philo->id);
 		ft_usleep(philo->data->t_sleep);
 		print_status(3, philo->id);
