@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/02 16:45:42 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:57:18 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	philo_fork(t_philo *philo);
 
 void	philo_eat(t_philo *philo);
 
-void	is_dead(t_philo *philo);
+void	*is_dead(void *arg);
 
 void	print_status(int mode, int num);
 
