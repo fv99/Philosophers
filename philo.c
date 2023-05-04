@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/04 14:35:48 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:48:06 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*philo_routine(void *arg)
 		philo_fork(philo);
 		philo_eat(philo);
 		if (philo->n_ate >= philo->data->n_eat)
-			break;
+			return(NULL);
 		print_status(2, philo->id);
 		ft_usleep(philo->data->t_sleep);
 		print_status(3, philo->id);
@@ -35,17 +35,27 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
-void	philo_fork(t_philo *philo)
+void philo_fork(t_philo *philo)
 {
-	if (philo->data->n_philo == 1)
-	{
-		ft_usleep(philo->data->t_eat * 2);
-		return;
-	}
-	pthread_mutex_lock(&philo->left);
-	print_status(0, philo->id);
-	pthread_mutex_lock(philo->right);
-	print_status(0, philo->id);
+    if (philo->data->n_philo == 1)
+    {
+        ft_usleep(philo->data->t_eat * 2);
+        return;
+    }
+    if (philo->id % 2 == 0)
+    {
+        pthread_mutex_lock(&philo->left);
+        print_status(0, philo->id);
+        pthread_mutex_lock(philo->right);
+        print_status(0, philo->id);
+    }
+    else
+    {
+        pthread_mutex_lock(philo->right);
+        print_status(0, philo->id);
+        pthread_mutex_lock(&philo->left);
+        print_status(0, philo->id);
+    }
 }
 
 void	philo_eat(t_philo *philo)
