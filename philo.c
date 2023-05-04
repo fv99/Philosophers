@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/04 14:48:06 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:00:22 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@ void	*philo_routine(void *arg)
 	pthread_t	thread;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		ft_usleep(philo->data->t_eat);
 	pthread_create(&thread, NULL, is_dead, philo);
 	while(philo->dead == 0)
 	{
 		philo_fork(philo);
 		philo_eat(philo);
 		if (philo->n_ate >= philo->data->n_eat)
+		{
+			pthread_detach(thread);
 			return(NULL);
-		print_status(2, philo->id);
-		ft_usleep(philo->data->t_sleep);
+		}
 		print_status(3, philo->id);
 	}
 	pthread_detach(thread);
@@ -39,7 +38,7 @@ void philo_fork(t_philo *philo)
 {
     if (philo->data->n_philo == 1)
     {
-        ft_usleep(philo->data->t_eat * 2);
+        ft_usleep(philo->data->t_die * 2);
         return;
     }
     if (philo->id % 2 == 0)
@@ -64,9 +63,10 @@ void	philo_eat(t_philo *philo)
 		return ;
 	print_status(1, philo->id);
 	philo->n_ate++;
-	philo->last_ate = timestamp();
 	pthread_mutex_unlock(&philo->left);
 	pthread_mutex_unlock(philo->right);
+	print_status(2, philo->id);
+	ft_usleep(philo->data->t_sleep);
 }
 
 void	*is_dead(void *arg)
@@ -76,14 +76,14 @@ void	*is_dead(void *arg)
 	philo = (t_philo *)arg;
 	while (!philo->dead)
 	{
-		if (timestamp() - philo->last_ate > philo->data->t_die)
+		if (timestamp() - philo->last_ate >= philo->data->t_die)
 		{
 			print_status(4, philo->id);
 			philo->dead = 1;
-			pthread_mutex_unlock(philo->right);
 			pthread_mutex_unlock(&philo->left);
+			pthread_mutex_unlock(philo->right);
 		}
-		ft_usleep(10);
+		// ft_usleep(1);
 	}
 	return (NULL);
 }
