@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/03 15:57:18 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:14:14 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	t_philo	*philo;
-	int		n_philo;
-	int		t_die;
-	int		t_eat;
-	int		t_sleep;
-	int		n_eat;
+	t_philo			*philo;
+	int				n_philo;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				n_eat;
+	pthread_mutex_t	m_eating;
+	pthread_mutex_t	m_running;
 }	t_data;
 
 // philo.c

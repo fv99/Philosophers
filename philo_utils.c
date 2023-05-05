@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/03 16:07:03 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:15:22 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	init_philos(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
+	pthread_mutex_init(&data->m_eating, NULL);
+	pthread_mutex_init(&data->m_running, NULL);
 	data->n_philo = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
 	data->t_eat = ft_atoi(argv[3]);
