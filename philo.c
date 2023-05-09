@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/09 16:18:24 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:31:04 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	*philo_routine(void *arg)
 	{
 		philo_fork(philo);
 		philo_eat(philo);
+		printf("%i n ate %i \n", philo->id, philo->n_ate);
 		if (philo->n_ate >= philo->data->n_eat)
 		{
-			pthread_detach(thread);
+			pthread_join(thread, NULL);
 			return(NULL);
 		}
 	}
@@ -79,8 +80,6 @@ void *is_dead(void *arg)
 			print_status(philo, 4, philo->id);
 			philo->data->running = 0;
 			philo->dead = 1;
-			// pthread_mutex_unlock(&philo->left);
-			// pthread_mutex_unlock(philo->right);
 			pthread_mutex_unlock(&philo->data->m_eating);
 			return (NULL);
         }
