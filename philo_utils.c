@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/09 15:37:59 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:08:38 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ void	free_data(t_data *data)
 	{
 		if (data->philo)
 		{
-			i = -1;
-			while (++i < data->n_philo)
+			i = 0;
+			while (i < data->n_philo)
 			{
 				pthread_mutex_destroy(&data->philo[i].left);
 				pthread_mutex_destroy(data->philo[i].right);
+				i++;
 			}
 			free(data->philo);
 			pthread_mutex_destroy(&data->m_eating);

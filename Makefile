@@ -6,12 +6,12 @@
 #    By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 15:47:13 by fvonsovs          #+#    #+#              #
-#    Updated: 2023/05/02 16:50:37 by fvonsovs         ###   ########.fr        #
+#    Updated: 2023/05/09 16:16:47 by fvonsovs         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	gcc
-CFLAGS		=	-pthread -lpthread -lrt -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		=	-pthread -lpthread -lrt -Wall -Wextra -Werror -fsanitize=address -g
 NAME		=	philo
 SRCS		=	main.c philo_utils.c libft_utils.c input_check.c philo.c
 OBJS		=	${SRCS:.c=.o}
