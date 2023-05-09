@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/09 16:08:38 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:56:00 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	init_philos(t_data *data)
 		data->philo[i].n_ate = 0;
 		data->philo[i].data = data;
 		data->philo[i].dead = 0;
+		data->philo[i].immortal = 0;
 		pthread_mutex_init(&data->philo[i].left, NULL);
 		if (i == data->n_philo - 1)
 			data->philo[i].right = &data->philo[0].left;
