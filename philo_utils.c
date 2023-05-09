@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/05 14:15:22 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:37:59 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	init_philos(t_data *data)
 int	init_data(t_data *data, char **argv)
 {
 	pthread_mutex_init(&data->m_eating, NULL);
-	pthread_mutex_init(&data->m_running, NULL);
+	pthread_mutex_init(&data->m_print, NULL);
+	data->running = 1;
 	data->n_philo = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
 	data->t_eat = ft_atoi(argv[3]);
@@ -53,7 +54,7 @@ int	init_data(t_data *data, char **argv)
 	if (argv[5])
 		data->n_eat = ft_atoi(argv[5]);
 	else if (!argv[5])
-		data->n_eat = INT_MAX;
+		data->n_eat = INT_MAX - 1;
 	data->philo = malloc(sizeof(t_philo) * data->n_philo);
 	if (!data->philo)
 		you_fucked_up("Allocation failed");
@@ -86,14 +87,15 @@ void	free_data(t_data *data)
 	{
 		if (data->philo)
 		{
-			i = 0;
-			while (i < data->n_philo)
+			i = -1;
+			while (++i < data->n_philo)
 			{
 				pthread_mutex_destroy(&data->philo[i].left);
 				pthread_mutex_destroy(data->philo[i].right);
-				i++;
 			}
 			free(data->philo);
+			pthread_mutex_destroy(&data->m_eating);
+			pthread_mutex_destroy(&data->m_print);
 		}
 	}
 }

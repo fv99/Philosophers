@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/05 14:14:14 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:09:38 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ typedef struct s_data
 	int				t_eat;
 	int				t_sleep;
 	int				n_eat;
+	int				running;
 	pthread_mutex_t	m_eating;
-	pthread_mutex_t	m_running;
+	pthread_mutex_t	m_print;
 }	t_data;
 
 // philo.c
@@ -57,7 +58,7 @@ void	philo_eat(t_philo *philo);
 
 void	*is_dead(void *arg);
 
-void	print_status(int mode, int num);
+void	print_status(t_philo *philo, int mode, int num);
 
 // libft_utils.c
 
