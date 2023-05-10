@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/09 16:56:00 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:42:54 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,14 @@ int	init_philos(t_data *data)
 			data->philo[i].right = &data->philo[0].left;
 		else
 			data->philo[i].right = &data->philo[i + 1].left;
-		if (pthread_create(&data->philo[i].thread, NULL, philo_routine, &data->philo[i]) != 0)
+		if (pthread_create(&data->philo[i].thread, NULL, \
+			philo_routine, &data->philo[i]) != 0)
 			you_fucked_up("Couldnt create thread");
 		i++;
 	}
-	i = 0;
-    while (i < data->n_philo)
-	{
-        pthread_join(data->philo[i].thread, NULL);
-		i++;
-	}
+	i = -1;
+	while (++i < data->n_philo)
+		pthread_join(data->philo[i].thread, NULL);
 	return (0);
 }
 
@@ -111,7 +109,8 @@ int test_init(t_data *data)
         return (-1);
     for (i = 0; i < data->n_philo; i++)
     {
-        printf("philo[%d]: id = %d, left = %p, right = %p\n", i, data->philo[i].id,
+        printf("philo[%d]: id = %d, left \
+		= %p, right = %p\n", i, data->philo[i].id,
                &data->philo[i].left, &data->philo[i].right);
 
         if (pthread_mutex_trylock(&data->philo[i].left) != 0)

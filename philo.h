@@ -6,10 +6,9 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/09 16:55:48 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:30:17 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -51,44 +50,44 @@ typedef struct s_data
 
 // philo.c
 
-void	*philo_routine(void *arg);
+void		*philo_routine(void *arg);
 
-void	philo_fork(t_philo *philo);
+void		philo_fork(t_philo *philo);
 
-void	philo_eat(t_philo *philo);
+void		philo_eat(t_philo *philo);
 
-void	*is_dead(void *arg);
+void		*is_dead(void *arg);
 
-void	print_status(t_philo *philo, int mode, int num);
+void		print_status(t_philo *philo, int mode, int num);
 
 // libft_utils.c
 
-int		you_fucked_up(char *msg);
+int			you_fucked_up(char *msg);
 
-int		ft_isdigit(int str);
+int			ft_isdigit(int str);
 
-int		ft_atoi(char *str);
+int			ft_atoi(char *str);
 
 // philo_utils.c
 
-int	init_philos(t_data *data);
+int			init_philos(t_data *data);
 
-int		init_data(t_data *data, char **argv);
+int			init_data(t_data *data, char **argv);
 
-void	free_data(t_data *data);
+void		free_data(t_data *data);
 
-long long timestamp(void);
+long long	timestamp(void);
 
-void	ft_usleep(int ms);
+void		ft_usleep(int ms);
 
 // int 	test_init(t_data *data);
 
 // input_check.c
 
-int		is_number(char *argv);
+int			is_number(char *argv);
 
-int		is_zero(char *argv);
+int			is_zero(char *argv);
 
-int		check_input(char **argv);
+int			check_input(char **argv);
 
 #endif
