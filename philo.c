@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/10 12:47:21 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:52:10 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,15 @@ void	philo_eat(t_philo *philo)
 	print_status(philo, 1, philo->id);
 	pthread_mutex_lock(&philo->data->m_eating);
 	philo->n_ate++;
-	if (philo->n_ate >= philo->data->n_eat)
-		philo->immortal = 1;
 	philo->last_ate = timestamp();
 	pthread_mutex_unlock(&philo->data->m_eating);
+	if (philo->n_ate >= philo->data->n_eat)
+	{
+		pthread_mutex_unlock(&philo->left);
+		pthread_mutex_unlock(philo->right);
+		philo->immortal = 1;
+		return ;
+	}
 	ft_usleep(philo->data->t_eat);
 	pthread_mutex_unlock(&philo->left);
 	pthread_mutex_unlock(philo->right);
