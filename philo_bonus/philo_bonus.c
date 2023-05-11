@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:19:46 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:42:47 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	philo_fork(t_philo *philo)
 void	philo_eat(t_philo *philo)
 {
 	print_status(philo, 1, philo->id);
-	pthread_mutex_lock(&philo->data->m_eating);
+	sem_wait(&philo->data->sem_eating);
 	philo->n_ate++;
 	philo->last_ate = timestamp();
-	pthread_mutex_unlock(&philo->data->m_eating);
+	sem_post(&philo->data->sem_eating);
 	if (philo->n_ate >= philo->data->n_eat)
 	{
 		sem_post(&philo->data->forks);
@@ -80,16 +80,16 @@ void	*is_dead(void *arg)
 	philo = (t_philo *)arg;
 	while (philo->dead == 0 && !philo->immortal)
 	{
-		pthread_mutex_lock(&philo->data->m_eating);
+		sem_wait(&philo->data->sem_eating);
 		if (timestamp() - philo->last_ate >= philo->data->t_die)
 		{
 			print_status(philo, 4, philo->id);
 			philo->data->running = 0;
 			philo->dead = 1;
-			pthread_mutex_unlock(&philo->data->m_eating);
+			sem_post(&philo->data->sem_eating);
 			return (NULL);
 		}
-		pthread_mutex_unlock(&philo->data->m_eating);
+		sem_post(&philo->data->sem_eating);
 		ft_usleep(5);
 	}
 	return (NULL);
@@ -107,6 +107,7 @@ void	print_status(t_philo *philo, int mode, int num)
 	unsigned long long	time;
 
 	time = timestamp();
+	sem_wait(&philo->data->sem_print);
 	if (philo->data->running == 1)
 	{
 		if (mode == 0)
@@ -120,4 +121,5 @@ void	print_status(t_philo *philo, int mode, int num)
 		else if (mode == 4)
 			printf("%llu %i has died. Press F to pay respects.\n", time, num);
 	}
+	sem_post(&philo->data->sem_print);
 }

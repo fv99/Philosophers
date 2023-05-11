@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:32:52 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:41:29 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	init_philos(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
-	pthread_mutex_init(&data->m_eating, NULL);
-	pthread_mutex_init(&data->m_print, NULL);
+	sem_init(&data->sem_eating, 0, 1);
+	sem_init(&data->sem_print, 0, 1);
 	if (sem_init(&data->forks, 0, data->n_philo) != 0)
 		you_fucked_up("Couldnt init forks");
 	data->running = 1;
@@ -87,8 +87,8 @@ int	free_data(t_data *data)
 		{
 			sem_destroy(&data->forks);
 			free(data->philo);
-			pthread_mutex_destroy(&data->m_eating);
-			pthread_mutex_destroy(&data->m_print);
+			sem_destroy(&data->sem_eating);
+			sem_destroy(&data->sem_print);
 		}
 	}
 	return (0);

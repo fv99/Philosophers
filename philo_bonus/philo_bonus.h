@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:32:22 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:38:59 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,28 @@
 // structs go here
 typedef struct s_philo
 {
-	pid_t				pid;
-	int					id;
-	long				last_ate;
-	int					n_ate;
-	int					dead;
-	int					immortal;
-	pthread_t			thread;
-	struct s_data		*data;
+	pid_t			pid;
+	int				id;
+	long			last_ate;
+	int				n_ate;
+	int				dead;
+	int				immortal;
+	pthread_t		thread;
+	struct s_data	*data;
 }	t_philo;
 
 typedef struct s_data
 {
-	t_philo			*philo;
-	int				n_philo;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
-	int				n_eat;
-	int				running;
-	pthread_mutex_t	m_eating;
-	pthread_mutex_t	m_print;
-	sem_t			forks;
+	t_philo	*philo;
+	int		n_philo;
+	int		t_die;
+	int		t_eat;
+	int		t_sleep;
+	int		n_eat;
+	int		running;
+	sem_t	sem_eating;
+	sem_t	sem_print;
+	sem_t	forks;
 }	t_data;
 
 // philo_bonus.c
