@@ -6,7 +6,7 @@
 #    By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 15:47:13 by fvonsovs          #+#    #+#              #
-#    Updated: 2023/05/11 15:46:47 by fvonsovs         ###   ########.fr        #
+#    Updated: 2023/05/11 16:19:21 by fvonsovs         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ CFLAGS		=	-pthread -lpthread -lrt -Wall -Wextra -Werror -fsanitize=address -g
 NAME		=	philo_bonus
 SRCS		=	main.c philo_utils.c libft_utils.c input_check.c philo_bonus.c
 OBJS		=	${SRCS:.c=.o}
-BONUS_NAME	=	philo_bonus
-BONUS		=	main_bonus.c
+BONUS_NAME	=	placeholder
+BONUS		=	placeholder.c
 BONUS_OBJS	=	$(BONUS:.c=.o)
 LIBC		=	ar -cq
 RM			=	rm -f

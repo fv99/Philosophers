@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 15:46:50 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:19:52 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,20 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h> 
 
 // structs go here
 typedef struct s_philo
 {
+	pid_t				pid;
 	int					id;
 	long				last_ate;
 	int					n_ate;
 	int					dead;
 	int					immortal;
-	pthread_mutex_t		left;
-	pthread_mutex_t		*right;
 	pthread_t			thread;
 	struct s_data		*data;
 }	t_philo;
@@ -46,6 +49,7 @@ typedef struct s_data
 	int				running;
 	pthread_mutex_t	m_eating;
 	pthread_mutex_t	m_print;
+	sem_t			forks;
 }	t_data;
 
 // philo_bonus.c

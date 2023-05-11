@@ -6,11 +6,11 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:31:20 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/01 17:25:50 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:19:38 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 // error handling
 int	you_fucked_up(char *msg)

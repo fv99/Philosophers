@@ -6,11 +6,11 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:33:00 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/04/27 16:40:20 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:19:36 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	is_number(char *argv)
 {

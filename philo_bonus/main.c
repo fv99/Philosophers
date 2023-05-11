@@ -6,11 +6,11 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:56:52 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 15:45:21 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:19:41 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	main(int argc, char **argv)
 {

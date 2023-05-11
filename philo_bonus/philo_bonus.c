@@ -6,11 +6,11 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 15:50:45 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:19:46 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	*philo_routine(void *arg)
 {
@@ -44,9 +44,9 @@ void	philo_fork(t_philo *philo)
 	}
 	if (philo->data->running)
 	{
-		pthread_mutex_lock(&philo->left);
+		sem_wait(&philo->data->forks);
 		print_status(philo, 0, philo->id);
-		pthread_mutex_lock(philo->right);
+		sem_wait(&philo->data->forks);
 		print_status(philo, 0, philo->id);
 	}
 }
@@ -60,14 +60,14 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->m_eating);
 	if (philo->n_ate >= philo->data->n_eat)
 	{
-		pthread_mutex_unlock(&philo->left);
-		pthread_mutex_unlock(philo->right);
+		sem_post(&philo->data->forks);
+		sem_post(&philo->data->forks);
 		philo->immortal = 1;
 		return ;
 	}
 	ft_usleep(philo->data->t_eat);
-	pthread_mutex_unlock(&philo->left);
-	pthread_mutex_unlock(philo->right);
+	sem_post(&philo->data->forks);
+	sem_post(&philo->data->forks);
 	print_status(philo, 2, philo->id);
 	ft_usleep(philo->data->t_sleep);
 	print_status(philo, 3, philo->id);

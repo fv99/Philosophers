@@ -6,11 +6,11 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 15:46:48 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:21:56 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	init_philos(t_data *data)
 {
@@ -25,19 +25,15 @@ int	init_philos(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].dead = 0;
 		data->philo[i].immortal = 0;
-		pthread_mutex_init(&data->philo[i].left, NULL);
-		if (i == data->n_philo - 1)
-			data->philo[i].right = &data->philo[0].left;
-		else
-			data->philo[i].right = &data->philo[i + 1].left;
-		if (pthread_create(&data->philo[i].thread, NULL, \
-			philo_routine, &data->philo[i]) != 0)
-			you_fucked_up("Couldnt create thread");
+		data->philo[i].pid = fork();
+		if (data->philo[i].pid < 0)
+			you_fucked_up("Couldnt fork process");
+		philo_routine(&data->philo[i]);
 		i++;
 	}
 	i = -1;
 	while (++i < data->n_philo)
-		pthread_join(data->philo[i].thread, NULL);
+		waitpid(data->philo[i].pid, NULL, 0);
 	return (0);
 }
 
@@ -45,6 +41,8 @@ int	init_data(t_data *data, char **argv)
 {
 	pthread_mutex_init(&data->m_eating, NULL);
 	pthread_mutex_init(&data->m_print, NULL);
+	if (sem_init(&data->forks, 0, data->n_philo) != 0)
+		you_fucked_up("Couldnt init forks");
 	data->running = 1;
 	data->n_philo = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
@@ -80,19 +78,11 @@ void	ft_usleep(int ms)
 
 void	free_data(t_data *data)
 {
-	int	i;
-
 	if (data)
 	{
 		if (data->philo)
 		{
-			i = 0;
-			while (i < data->n_philo)
-			{
-				pthread_mutex_destroy(&data->philo[i].left);
-				pthread_mutex_destroy(data->philo[i].right);
-				i++;
-			}
+			sem_destroy(&data->forks);
 			free(data->philo);
 			pthread_mutex_destroy(&data->m_eating);
 			pthread_mutex_destroy(&data->m_print);
