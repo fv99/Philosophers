@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:19:52 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:32:22 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			init_philos(t_data *data);
 
 int			init_data(t_data *data, char **argv);
 
-void		free_data(t_data *data);
+int			free_data(t_data *data);
 
 long long	timestamp(void);
 

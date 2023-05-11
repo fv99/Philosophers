@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:21:56 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:32:52 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	init_philos(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (i < data->n_philo)
+	i = -1;
+	while (++i < data->n_philo)
 	{
 		data->philo[i].id = i + 1;
 		data->philo[i].last_ate = timestamp();
@@ -28,13 +28,16 @@ int	init_philos(t_data *data)
 		data->philo[i].pid = fork();
 		if (data->philo[i].pid < 0)
 			you_fucked_up("Couldnt fork process");
-		philo_routine(&data->philo[i]);
-		i++;
+		else if (data->philo[i].pid == 0)
+		{
+			philo_routine(&data->philo[i]);
+			exit(0);
+		}
 	}
 	i = -1;
 	while (++i < data->n_philo)
 		waitpid(data->philo[i].pid, NULL, 0);
-	return (0);
+	return (free_data(data));
 }
 
 int	init_data(t_data *data, char **argv)
@@ -76,7 +79,7 @@ void	ft_usleep(int ms)
 		usleep(ms / 10);
 }
 
-void	free_data(t_data *data)
+int	free_data(t_data *data)
 {
 	if (data)
 	{
@@ -88,6 +91,7 @@ void	free_data(t_data *data)
 			pthread_mutex_destroy(&data->m_print);
 		}
 	}
+	return (0);
 }
 
 /* // test function
@@ -97,7 +101,7 @@ int test_init(t_data *data)
 
     if (!data->philo)
         return (-1);
-    for (i = 0; i < data->n_philo; i++)
+    for (i = 0; i < data-		free_data(&data);>n_philo; i++)
     {
         printf("philo[%d]: id = %d, left \
 		= %p, right = %p\n", i, data->philo[i].id,

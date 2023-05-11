@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:56:52 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:19:41 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:30:57 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	main(int argc, char **argv)
 	{
 		check_input(argv);
 		init_data(&data, argv);
-		free_data(&data);
 	}
 	else
 		you_fucked_up("Usage: ./philo_bonus number_of_philosophers\
