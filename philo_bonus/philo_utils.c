@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:41:29 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:05:42 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	init_philos(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].dead = 0;
 		data->philo[i].immortal = 0;
+		sem_init(&data->philo[i].sem_eating, 0, 1);
 		data->philo[i].pid = fork();
 		if (data->philo[i].pid < 0)
 			you_fucked_up("Couldnt fork process");
@@ -42,10 +43,8 @@ int	init_philos(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
-	sem_init(&data->sem_eating, 0, 1);
 	sem_init(&data->sem_print, 0, 1);
-	if (sem_init(&data->forks, 0, data->n_philo) != 0)
-		you_fucked_up("Couldnt init forks");
+	sem_init(&data->forks, 0, data->n_philo);
 	data->running = 1;
 	data->n_philo = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
@@ -81,13 +80,17 @@ void	ft_usleep(int ms)
 
 int	free_data(t_data *data)
 {
+	int	i;
+	
 	if (data)
 	{
 		if (data->philo)
 		{
+			i = 0;
+			while (i < data->n_philo)
+				sem_destroy(&data->philo->sem_eating);
 			sem_destroy(&data->forks);
 			free(data->philo);
-			sem_destroy(&data->sem_eating);
 			sem_destroy(&data->sem_print);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/11 16:42:47 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:07:25 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	pthread_create(&thread, NULL, is_dead, philo);
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->data->t_eat / 10);
+		ft_usleep(philo->data->t_eat / 2);
 	while (philo->dead == 0 && philo->data->running == 1)
 	{
 		philo_fork(philo);
@@ -54,10 +54,10 @@ void	philo_fork(t_philo *philo)
 void	philo_eat(t_philo *philo)
 {
 	print_status(philo, 1, philo->id);
-	sem_wait(&philo->data->sem_eating);
+	sem_wait(&philo->sem_eating);
 	philo->n_ate++;
 	philo->last_ate = timestamp();
-	sem_post(&philo->data->sem_eating);
+	sem_post(&philo->sem_eating);
 	if (philo->n_ate >= philo->data->n_eat)
 	{
 		sem_post(&philo->data->forks);
@@ -80,16 +80,18 @@ void	*is_dead(void *arg)
 	philo = (t_philo *)arg;
 	while (philo->dead == 0 && !philo->immortal)
 	{
-		sem_wait(&philo->data->sem_eating);
+		sem_wait(&philo->sem_eating);
 		if (timestamp() - philo->last_ate >= philo->data->t_die)
 		{
 			print_status(philo, 4, philo->id);
 			philo->data->running = 0;
 			philo->dead = 1;
-			sem_post(&philo->data->sem_eating);
+			sem_post(&philo->data->forks);
+			sem_post(&philo->data->forks);
+			sem_post(&philo->sem_eating);
 			return (NULL);
 		}
-		sem_post(&philo->data->sem_eating);
+		sem_post(&philo->sem_eating);
 		ft_usleep(5);
 	}
 	return (NULL);
