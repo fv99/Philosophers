@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/10 12:52:10 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:11:19 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ void	*is_dead(void *arg)
 		if (timestamp() - philo->last_ate >= philo->data->t_die)
 		{
 			print_status(philo, 4, philo->id);
+			pthread_mutex_lock(&philo->data->m_print);
 			philo->data->running = 0;
 			philo->dead = 1;
+			pthread_mutex_unlock(&philo->data->m_print);
 			pthread_mutex_unlock(&philo->data->m_eating);
 			return (NULL);
 		}
@@ -107,6 +109,7 @@ void	print_status(t_philo *philo, int mode, int num)
 	unsigned long long	time;
 
 	time = timestamp();
+	pthread_mutex_lock(&philo->data->m_print);
 	if (philo->data->running == 1)
 	{
 		if (mode == 0)
@@ -120,4 +123,5 @@ void	print_status(t_philo *philo, int mode, int num)
 		else if (mode == 4)
 			printf("%llu %i has died. Press F to pay respects.\n", time, num);
 	}
+	pthread_mutex_unlock(&philo->data->m_print);
 }
