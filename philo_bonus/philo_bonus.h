@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:57:56 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/12 13:03:28 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:51:48 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <fcntl.h>
+# include <sys/stat.h> 
 # include <sys/types.h>
 # include <sys/wait.h> 
 
@@ -36,7 +37,6 @@ typedef struct s_philo
 	int				immortal;
 	pthread_t		thread;
 	struct s_data	*data;
-	sem_t			sem_eating;
 }	t_philo;
 
 typedef struct s_data
@@ -48,13 +48,14 @@ typedef struct s_data
 	int		t_sleep;
 	int		n_eat;
 	int		running;
-	sem_t	sem_print;
-	sem_t	forks;
+	sem_t	*sem_print;
+	sem_t	*forks;
+	sem_t	*sem_eating;
 }	t_data;
 
 // philo_bonus.c
 
-void		*philo_routine(void *arg);
+void		philo_routine(void *arg);
 
 void		philo_fork(t_philo *philo);
 

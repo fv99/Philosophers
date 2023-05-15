@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/15 15:18:26 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:52:02 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	init_philos(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].dead = 0;
 		data->philo[i].immortal = 0;
-		sem_init(&data->philo[i].sem_eating, 0, 1);
 		data->philo[i].pid = fork();
 		if (data->philo[i].pid < 0)
 			you_fucked_up("Couldnt fork process");
@@ -43,8 +42,6 @@ int	init_philos(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
-	sem_init(&data->sem_print, 0, 1);
-	sem_init(&data->forks, 0, data->n_philo);
 	data->running = 1;
 	data->n_philo = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
@@ -57,6 +54,9 @@ int	init_data(t_data *data, char **argv)
 	data->philo = malloc(sizeof(t_philo) * data->n_philo);
 	if (!data->philo)
 		you_fucked_up("Allocation failed");
+	data->sem_print = sem_open("/sem_print", O_CREAT, 0644, 1);
+	data->sem_eating = sem_open("/sem_eating", O_CREAT, 0644, 1);
+	data->forks = sem_open("/forks", O_CREAT, 0644, data->n_philo);
 	init_philos(data);
 	return (0);
 }
@@ -80,18 +80,17 @@ void	ft_usleep(int ms)
 
 int	free_data(t_data *data)
 {
-	int	i;
-	
 	if (data)
 	{
 		if (data->philo)
 		{
-			i = -1;
-			while (++i < data->n_philo)
-				sem_destroy(&data->philo->sem_eating);
-			sem_destroy(&data->forks);
+			sem_unlink("sem_eating");
+			sem_unlink("forks");
+			sem_unlink("sem_print");
+			sem_close(data->sem_eating);
+			sem_close(data->forks);
+			sem_close(data->sem_print);
 			free(data->philo);
-			sem_destroy(&data->sem_print);
 		}
 	}
 	return (0);
