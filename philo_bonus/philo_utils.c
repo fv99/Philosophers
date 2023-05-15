@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:30:03 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/12 13:05:42 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:18:26 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ int	free_data(t_data *data)
 	{
 		if (data->philo)
 		{
-			i = 0;
-			while (i < data->n_philo)
+			i = -1;
+			while (++i < data->n_philo)
 				sem_destroy(&data->philo->sem_eating);
 			sem_destroy(&data->forks);
 			free(data->philo);

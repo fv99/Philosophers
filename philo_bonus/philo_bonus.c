@@ -6,7 +6,7 @@
 /*   By: fvonsovs <fvonsovs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:28:13 by fvonsovs          #+#    #+#             */
-/*   Updated: 2023/05/12 13:07:25 by fvonsovs         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:24:13 by fvonsovs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,13 @@ void	*is_dead(void *arg)
 		if (timestamp() - philo->last_ate >= philo->data->t_die)
 		{
 			print_status(philo, 4, philo->id);
+			sem_wait(&philo->data->sem_print);
 			philo->data->running = 0;
 			philo->dead = 1;
 			sem_post(&philo->data->forks);
 			sem_post(&philo->data->forks);
 			sem_post(&philo->sem_eating);
+			sem_post(&philo->data->sem_print);
 			return (NULL);
 		}
 		sem_post(&philo->sem_eating);
